@@ -39,7 +39,7 @@ const displayVideos = (videos)=>{
         <div class="shadow-sm">
             <div class="relative w-full">
                 <div class="relative">
-                    <img class="w-full h-[250px]" src="${video.thumbnail}" alt="">
+                    <img class="w-full h-[200px] object-cover" src="${video.thumbnail}" alt="">
                     <p class="absolute right-2 bottom-2 text-white bg-black rounded p-1">3hrs 56 min ago</p>
                 </div>
             </div>
