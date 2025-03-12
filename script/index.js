@@ -1,4 +1,11 @@
 
+// active remove function
+function removeActiveClass(){
+    const activeClassBtn = document.getElementsByClassName("active");
+    for(const activeBtn of activeClassBtn){
+        activeBtn.classList.remove("active");
+    }
+}
 // write function and fetch
 function categoriesLoader(){
     fetch("https://openapi.programming-hero.com/api/phero-tube/categories")
@@ -6,14 +13,30 @@ function categoriesLoader(){
     .then((data) => displayCategories(data.categories))
 }
 
-
-
 function loadVideos(){
     fetch("https://openapi.programming-hero.com/api/phero-tube/videos")
     .then((response)=> response.json())
-    .then((data)=> displayVideos(data.videos))
+    .then((data)=> {
+        removeActiveClass()
+        document.getElementById("all-btn").classList.add("active");
+        displayVideos(data.videos)
+    })
 }
 
+function loadCategoryVideos(id){
+    const url = `https://openapi.programming-hero.com/api/phero-tube/category/${id}`;
+
+    fetch(url)
+    .then((response)=> response.json())
+    .then((data)=>{
+        const clickedBtn = document.getElementById(`btn-${id}`);
+        removeActiveClass()
+        clickedBtn.classList.add("active")
+
+        displayVideos(data.category)
+    })
+    
+}
 
 
 // call-back function create
@@ -23,15 +46,24 @@ const displayCategories=(categories)=>{
     for(const cat of categories){
         const categoryDiv = document.createElement("div");
         categoryDiv.innerHTML=`
-        <button class="btn hover:bg-[#FF1F3D] hover:text-white">${cat.category}</button>
+        <button id="btn-${cat.category_id}" onclick="loadCategoryVideos(${cat.category_id})" class="btn hover:bg-[#FF1F3D] hover:text-white">${cat.category}</button>
         `
         categoryContainer.append(categoryDiv)
     }
 }
 
-
 const displayVideos = (videos)=>{
     const videoContainer = document.getElementById("videos-container");
+    videoContainer.innerHTML="";
+    if(videos.length==0){
+        videoContainer.innerHTML=`
+        <div id="opps" class="flex justify-center text-center flex-col col-span-full mt-20">
+            <img class="mx-auto" src="asets/Icon.png" alt="">
+            <h2 class="text-4xl font-bold">Oops!! Sorry, There is no content here</h2>
+      </div>
+        `
+    }
+   
     videos.forEach(video => {
         // console.log(video.authors[0].profile_picture)
         const cardDiv = document.createElement("div");
@@ -63,24 +95,6 @@ const displayVideos = (videos)=>{
     });
 }
 
-// {
-//     "category_id": "1001",
-//     "video_id": "aaaa",
-//     "thumbnail": "https://i.ibb.co/L1b6xSq/shape.jpg",
-//     "title": "Shape of You",
-//     "authors": [
-//         {
-//             "profile_picture": "https://i.ibb.co/D9wWRM6/olivia.jpg",
-//             "profile_name": "Olivia Mitchell",
-//             "verified": ""
-//         }
-//     ],
-//     "others": {
-//         "views": "100K",
-//         "posted_date": "16278"
-//     },
-//     "description": "Dive into the rhythm of 'Shape of You,' a captivating track that blends pop sensibilities with vibrant beats. Created by Olivia Mitchell, this song has already gained 100K views since its release. With its infectious melody and heartfelt lyrics, 'Shape of You' is perfect for fans looking for an uplifting musical experience. Let the music take over as Olivia's vocal prowess and unique style create a memorable listening journey."
-// }
 
 // call function
 categoriesLoader()

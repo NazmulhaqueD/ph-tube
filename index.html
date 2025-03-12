@@ -14,7 +14,10 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- common style -->
     <style>
-
+        .active{
+            background-color: #FF1F3D;
+            color: white;
+        }
     </style>
 </head>
 
@@ -35,7 +38,7 @@
         <!-- categories btn section -->
         <div id="category-container" class="flex justify-center items-center gap-4 py-5">
             <div>
-                <button class="btn bg-[#FF1F3D] text-white">All</button>
+                <button id="all-btn" onclick="loadVideos()" class="btn">All</button>
             </div>
         </div>
     </header>
@@ -64,7 +67,10 @@
             </div>
         </div>
         -->
-      
+      <!-- <div id="opps" class="flex justify-center text-center flex-col col-span-full mt-20">
+            <img class="mx-auto" src="asets/Icon.png" alt="">
+            <h2 class="text-4xl font-bold">Oops!! Sorry, There is no content here</h2>
+      </div> -->
     </main>
     <footer>
 
